@@ -359,7 +359,11 @@
 						        setTimeout(resolve,duration);
 						    })
 						}
-			  		
+						html2canvas(document.querySelector("#content")).then(canvas => {
+							removeChlidernNode()
+						    document.body.appendChild(canvas)
+						});
+			  		/*
 					    html2canvas(document.getElementById('content'), {
 
 					        onrendered: function(canvas) {
@@ -373,7 +377,7 @@
 
 					        }.bind(this),
 					     
-					    });
+					    });*/
 
 					   wait(500).then(function(){savePng()})
 
@@ -447,7 +451,7 @@
 
 	/*自动保存为png*/
 	// 获取图片资源
-	var img_data1 = Canvas2Image.saveAsPNG(oCanvas, true).getAttribute('src');
+	var img_data1 = Canvas2Image.saveAs PNG(oCanvas, true).getAttribute('src');
 	saveFile(img_data1, Date.now());
 
 
