@@ -440,11 +440,11 @@
  }
 
  function savePng(){
-	var oCanvas = document.getElementById("thecanvas");
+	var canvasObj = document.getElementById("thecanvas");
 
 	/*自动保存为png*/
 	// 获取图片资源
-	var img_data1 = Canvas2Image.saveAsPNG(oCanvas, true).getAttribute('src');
+	var img_data1 = Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height);
 	saveFile(img_data1, Date.now());
 
 
