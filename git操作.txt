@@ -1,0 +1,17 @@
+echo "# PngCanves" >> README.md
+git init
+git add README.md
+
+git commit -m "first commit"
+
+git remote add origin git@github.com:Liny2016/PngCanves.git
+
+git push -u origin master
+
+修改 时报错 readme不在本地代码目录中
+
+注：pull=fetch+merge]
+
+git pull --rebase origin master
+
+git push -u origin master
