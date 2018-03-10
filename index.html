@@ -366,11 +366,14 @@
 					        useCORS: true // 【重要】开启跨域配置
 					    };
 						html2canvas(shareContent, opts).then(canvas => {
+							console.log('width',canvas.width,canvas.height)
 							//添加属性
-				        	canvas.setAttribute('id','thecanvas');
+				        	
 							//读取属性值
 							removeChlidernNode()
-							var img = Canvas2Image.convertToImage(canvas);
+							var img = Canvas2Image.convertToPNG(canvas, canvas.width, canvas.height);
+							img.setAttribute('id','thecanvas')
+						 	img.setAttribute("crossOrigin",'Anonymous')
 						    this.$refs.canvasImg.appendChild(img);
 						});
 
