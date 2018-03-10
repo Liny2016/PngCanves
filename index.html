@@ -360,6 +360,7 @@
 						    })
 						}
 						html2canvas(document.querySelector("#content")).then(canvas => {
+							canvas.setAttribute('id','thecanvas');
 							removeChlidernNode()
 						    document.body.appendChild(canvas)
 						});
