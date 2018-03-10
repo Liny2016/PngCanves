@@ -445,11 +445,11 @@
  }
 
  function savePng(){
-	var canvasObj = document.getElementById("images");
+	var canvasObj = document.getElementById("canvesId");
 
 	/*自动保存为png*/
 	// 获取图片资源
-	var img_data1 = Canvas2Image.saveAsPNG(canvasObj, true).getAttribute('src');
+	var img_data1 = Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height).getAttribute('src');
 	saveFile(img_data1, Date.now());
 
 
