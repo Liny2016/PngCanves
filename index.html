@@ -5,7 +5,6 @@
 	<title>Png字幕生成器1.0</title>
 	<link rel="icon" type="image/png" sizes="32x32" href="./images/logo.png">
  	<link href="css/bootstrap.min.css" rel="stylesheet">
- 	<script src="js/webfontloader.js"></script>
  	<style type="text/css">
  		.navbar{
  		 background: #673ab8;
@@ -23,27 +22,6 @@
 			width: 210px;
 		}
  	</style>
- 	<script>
-	  WebFont.load({
-	    custom: {
-       	    families: ['myFontstyle1','myFontstyle2','myFontstyle4'],
-        	urls : ['./css/font.css']  //字体声明处，页面不需要引入该样式
-      	},
-      
-	  });
-	</script>
-
- 	
- 	<script type="text/javascript" src="js/vue.min.js"></script>
-	<!-- html2canvas将Dom节点在Canvas里边画出来 -->
-	<script src="./js/html2canvas.min.js"></script>
-	<!-- 将canvas图片保存成图片 -->
-	<script src="./js/canvas2image.js"></script>
-	<!-- 生成hash -->
-	<script src="./js/base64.js"></script>
-	<script src="js/jscolor.min.js"></script>
-	<script src="./js/axios.js"></script>
-	<script src="./js/mock-min.js"></script>
 </head>
 <body>
 	<div id="root">
@@ -242,7 +220,26 @@
 
 	</script>
 	
-	<script type="text/javascript">
+ 	
+ 	<script type="text/javascript" src="js/vue.min.js"></script>
+	<!-- html2canvas将Dom节点在Canvas里边画出来 -->
+	<script src="./js/html2canvas.min.js"></script>
+	<!-- 将canvas图片保存成图片 -->
+	<script src="./js/canvas2image.js"></script>
+	<!-- 生成hash -->
+	<script src="./js/base64.js"></script>
+	<script src="js/jscolor.min.js"></script>
+	<script src="./js/axios.js"></script>
+	<script src="./js/mock-min.js"></script>
+	<script src="js/webfontloader.js"></script>
+	<script>
+	  WebFont.load({
+	    custom: {
+       	    families: ['myFontstyle1','myFontstyle2','myFontstyle4'],
+        	urls : ['./css/font.css']  //字体声明处，页面不需要引入该样式
+      	},
+      
+	  });
 		 //自定义指令
 		  Vue.directive('drag',//自定义指令                                     
 	        {
@@ -311,6 +308,22 @@
 						  zimuStyle:1,
 				  }
 			  },
+			  mounted(){
+			  		var self = this
+						var convertFn = function(Canvas2Image) {
+							
+							return function(canvas) {
+								console.log('width',canvas.width,canvas.height)
+								//添加属性
+								//读取属性值
+								removeChlidernNode()
+								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
+								console.log(img)
+								img.setAttribute('id','canvesId')
+							    self.$refs.canvasImg.appendChild(img);
+							}
+						}
+			  },
 		  	  created:function() {
 			    this.$api({
 			      method: 'post',
@@ -366,20 +379,6 @@
 					    	allowTaint: true,
 					        useCORS: true // 【重要】开启跨域配置
 					    };
-					    var self = this
-						var convertFn = function(Canvas2Image) {
-							
-							return function(canvas) {
-								console.log('width',canvas.width,canvas.height)
-								//添加属性
-								//读取属性值
-								removeChlidernNode()
-								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
-								console.log(img)
-								img.setAttribute('id','canvesId')
-							    self.$refs.canvasImg.appendChild(img);
-							}
-						}
 
 						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
 						
