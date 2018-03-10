@@ -1,0 +1,24 @@
+	
+    @font-face
+	{
+		font-family: myFontstyle1;
+		src: url(../font/fs1.ttf);
+	}
+	
+	@font-face
+	{
+		font-family: myFontstyle2;
+		src: url(../font/fs2.ttf);
+	}
+
+	@font-face
+	{
+		font-family: myFontstyle3;
+		src: url(../font/fs3.ttf);
+	}
+
+	@font-face
+	{
+		font-family: myFontstyle4;
+		src: url(../font/fs4.ttf);
+	}
