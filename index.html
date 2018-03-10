@@ -366,7 +366,11 @@
 					        useCORS: true // 【重要】开启跨域配置
 					    };
 						html2canvas(shareContent, opts).then(canvas => {
+							//添加属性
+				        	canvas.setAttribute('id','thecanvas');
+							//读取属性值
 							removeChlidernNode()
+
 						    this.$refs.canvasImg.appendChild(canvas);
 						});
 
