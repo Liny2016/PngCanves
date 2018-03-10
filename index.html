@@ -308,22 +308,6 @@
 						  zimuStyle:1,
 				  }
 			  },
-			  mounted(){
-			  		var self = this
-						var convertFn = function(Canvas2Image) {
-							
-							return function(canvas) {
-								console.log('width',canvas.width,canvas.height)
-								//添加属性
-								//读取属性值
-								removeChlidernNode()
-								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
-								console.log(img)
-								img.setAttribute('id','canvesId')
-							    self.$refs.canvasImg.appendChild(img);
-							}
-						}
-			  },
 		  	  created:function() {
 			    this.$api({
 			      method: 'post',
@@ -379,7 +363,20 @@
 					    	allowTaint: true,
 					        useCORS: true // 【重要】开启跨域配置
 					    };
-
+					    var self = this
+						var convertFn = function(Canvas2Image) {
+							
+							return function(canvas) {
+								console.log('width',canvas.width,canvas.height)
+								//添加属性
+								//读取属性值
+								removeChlidernNode()
+								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
+								console.log(img)
+								img.setAttribute('id','canvesId')
+							    self.$refs.canvasImg.appendChild(img);
+							}
+						}
 						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
 						
 					    wait(500).then(function(){savePng()})
