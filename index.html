@@ -367,12 +367,12 @@
 					    };
 					    var self = this
 						var convertFn = function(Canvas2Image) {
-							removeChlidernNode()
+							
 							return function(canvas) {
 								console.log('width',canvas.width,canvas.height)
 								//添加属性
 								//读取属性值
-								//removeChlidernNode()
+								removeChlidernNode()
 								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
 								console.log(img)
 								img.setAttribute('id','canvesId')
@@ -440,7 +440,7 @@
  function removeChlidernNode(){
  		var parentNode = document.getElementById('images')
  			if(parentNode.hasChildNodes()){
-				parentNode.removeChild(document.getElementById('thecanvas'));
+				parentNode.removeChild();
 			}
  }
 
