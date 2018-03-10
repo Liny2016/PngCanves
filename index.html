@@ -370,8 +370,8 @@
 				        	canvas.setAttribute('id','thecanvas');
 							//读取属性值
 							removeChlidernNode()
-
-						    this.$refs.canvasImg.appendChild(canvas);
+							var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
+						    this.$refs.canvasImg.appendChild(img);
 						});
 
 					   wait(500).then(function(){savePng()})
