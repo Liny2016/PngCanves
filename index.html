@@ -367,7 +367,7 @@
 					    };
 					    var self = this
 						var convertFn = function(Canvas2Image) {
-
+							removeChlidernNode()
 							return function(canvas) {
 								console.log('width',canvas.width,canvas.height)
 								//添加属性
@@ -449,7 +449,7 @@
 
 	/*自动保存为png*/
 	// 获取图片资源
-	var img_data1 = Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height).getAttribute('src');
+	var img_data1 = canvasObj.getAttribute('src');
 	saveFile(img_data1, Date.now());
 
 
