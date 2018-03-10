@@ -362,6 +362,7 @@
 
 					    var shareContent = document.getElementById('content');//
 					    var opts = {
+					    	backgroundColor: null,
 					    	allowTaint: true,
 					        useCORS: true // 【重要】开启跨域配置
 					    };
@@ -449,24 +450,14 @@
 
 	/*自动保存为png*/
 	// 获取图片资源
-	var img_data1 = Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height).getAttribute('src');
-	saveFile(img_data1, Date.now());
+	 Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height)
 
 
 	/*下面的为原生的保存，不带格式名*/
 	// 这将会提示用户保存PNG图片
 	// Canvas2Image.saveAsPNG(oCanvas);
 }
-// 保存文件函数
-var saveFile = function(data, filename){
-    var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
-    save_link.href = data;
-    save_link.download = filename;
-   
-    var event = document.createEvent('MouseEvents');
-    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    save_link.dispatchEvent(event);
-};
+
 
 </script>
 </body>
