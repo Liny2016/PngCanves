@@ -43,9 +43,15 @@ var Canvas2Image = function () {
 		return canvas.toDataURL(type);
 	}
 
-	function saveFile (strData) {
-		document.location.href = strData;
-	}
+	function saveFile(data, filename){
+	    var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+	    save_link.href = data;
+	    save_link.download = filename;
+	   
+	    var event = document.createEvent('MouseEvents');
+	    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+	    save_link.dispatchEvent(event);
+	};
 
 	function genImage(strData) {
 		var img = document.createElement('img');
@@ -205,10 +211,10 @@ var Canvas2Image = function () {
 			if (/bmp/.test(type)) {
 				var data = getImageData(scaleCanvas(canvas, width, height));
 				var strData = genBitmapImage(data);
-				saveFile(makeURI(strData, downloadMime));
+				saveFile(makeURI(strData, downloadMime),Date.now());
 			} else {
 				var strData = getDataURL(canvas, type, width, height);
-				saveFile(strData.replace(type, downloadMime));
+				saveFile(strData.replace(type, downloadMime),Date.now());
 			}
 		}
 	};
