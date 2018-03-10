@@ -380,8 +380,9 @@
 					    };
 						html2canvas(shareContent, opts).then(canvas => {
 							removeChlidernNode()
-						    document.body.appendChild(canvas)
+						    this.$refs.canvasImg.appendChild(canvas);
 						});
+
 					   wait(500).then(function(){savePng()})
 			  	},
 			  	savePngHandle:function(){
