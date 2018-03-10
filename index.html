@@ -365,19 +365,23 @@
 					    	allowTaint: true,
 					        useCORS: true // 【重要】开启跨域配置
 					    };
-						html2canvas(shareContent, opts).then(canvas => {
-							console.log('width',canvas.width,canvas.height)
-							//添加属性
-				        	
-							//读取属性值
-							removeChlidernNode()
-							var img = Canvas2Image.convertToPNG(canvas, canvas.width, canvas.height);
-							img.setAttribute('id','thecanvas')
-						 	img.setAttribute("crossOrigin",'Anonymous')
-						    this.$refs.canvasImg.appendChild(img);
-						});
+					    var self = this
+						var convertFn = function(Canvas2Image) {
 
-					   wait(500).then(function(){savePng()})
+							return function(canvas) {
+								console.log('width',canvas.width,canvas.height)
+								//添加属性
+								//读取属性值
+								//removeChlidernNode()
+								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
+								console.log(img)
+							    self.$refs.canvasImg.appendChild(img);
+							}
+						}
+						
+						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
+						
+					  // wait(500).then(function(){savePng()})
 			  	}
 			  },
 			  filters:{
@@ -444,7 +448,7 @@
 
 	/*自动保存为png*/
 	// 获取图片资源
-	var img_data1 = Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height);
+	var img_data1 = Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height).getAttribute('src');
 	saveFile(img_data1, Date.now());
 
 
