@@ -381,12 +381,9 @@
 							
 							return function(canvas) {
 								console.log('width',canvas.width,canvas.height)
-								
-								removeChlidernNode()
-								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
-								console.log(img)
-								img.setAttribute('id','canvesId')
-							    self.$refs.canvasImg.appendChild(img);
+								      
+								canvas.setAttribute('id','canvesId')
+							    self.$refs.canvasImg.appendChild(canvas);
 							}
 						}
 						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
