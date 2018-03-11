@@ -5,9 +5,6 @@
 	<title>Png字幕生成器1.0</title>
 	<link rel="icon" type="image/png" sizes="32x32" href="./images/logo.png">
  	<link href="css/bootstrap.min.css" rel="stylesheet">
- 	<script src="./js/html2canvas.min.js"></script>
-	<!-- 将canvas图片保存成图片 -->
-	<script src="./js/canvas2image.js"></script>
  	<style type="text/css">
  		.navbar{
  		 background: #673ab8;
@@ -226,6 +223,9 @@
  	
  	<script type="text/javascript" src="js/vue.min.js"></script>
 	<!-- html2canvas将Dom节点在Canvas里边画出来 -->
+	<script src="./js/html2canvas.min.js"></script>
+	<!-- 将canvas图片保存成图片 -->
+	<script src="./js/canvas2image.js"></script>
 	<!-- 生成hash -->
 	<script src="./js/base64.js"></script>
 	<script src="js/jscolor.min.js"></script>
@@ -235,13 +235,36 @@
 	<script>
 	  WebFont.load({
 	    custom: {
-       	    families: ['myFontstyle1','myFontstyle2','myFontstyle4'],
+       	    families: ['myFontstyle1','myFontstyle2'],
         	urls : ['./css/font.css']  //字体声明处，页面不需要引入该样式
       	},
-      
 	  });
+
+	  var api = axios.create();
+		api.defaults.baseURL = 'http://api.com';
+		api.defaults.timeout = 5000;
+		api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+		api.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest'
+		var Random = Mock.Random
+
+		var index = Mock.mock('http://api.com/index', {
+			'Home': {
+				'list|5': [{
+					'type|+1': [1,2,3],
+					'imgPath': Random.image('200x200Logo', '#b7ddf2', '#333', 'png', ''),
+					'id': '@id'
+				}],
+				'list2|5': [{
+					'type|+1': [1,2,3],
+					'imgPath': Random.image('300x300Logo', '#9954bb', '#333', 'png', ''),
+					'id': '@id'
+				}],
+			},
+		});
+		Vue.prototype.$api = api;
+		
 		 //自定义指令
-		  Vue.directive('drag',//自定义指令                                     
+	  	Vue.directive('drag',//自定义指令                                     
 	        {
 	        	bind:function (el, binding) {
 	        		
@@ -297,9 +320,6 @@
 					      fontFamilys: [
 						      { text: 'myFontstyle1', value: '锐字荣光黑简' },
 						      { text: 'myFontstyle2', value: '方正粗楷简体' },
-						      { text: 'myFontstyle3', value: '潦草文体' },
-						      { text: 'myFontstyle4', value: '文鼎古体' },
-						      { text: 'myFontstyle5', value: '简体' },
 						  ],
 					      selected: '小型',
 						  zimu: 'defaueltZimu',
@@ -350,13 +370,6 @@
 			  },
 			  methods:{
 			  	createCanvs:function(){
-
-			  			function wait(duration){
-						    return new Promise(function(resolve, reject) {
-						        setTimeout(resolve,duration);
-						    })
-						}
-
 					    var shareContent = document.getElementById('content');//
 					    var opts = {
 					    	backgroundColor: null,
@@ -368,8 +381,7 @@
 							
 							return function(canvas) {
 								console.log('width',canvas.width,canvas.height)
-								//添加属性
-								//读取属性值
+								
 								removeChlidernNode()
 								var img = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height);
 								console.log(img)
@@ -379,7 +391,7 @@
 						}
 						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
 						
-					    wait(500).then(function(){savePng()})
+					    wait(1000).then(function(){savePng()})
 			  	}
 			  },
 			  filters:{
@@ -394,65 +406,38 @@
 			    }
 			  }
 		});
-		var api = axios.create();
-		api.defaults.baseURL = 'http://api.com';
-		api.defaults.timeout = 5000;
-		api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-		api.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest'
-		var Random = Mock.Random
 
-		var index = Mock.mock('http://api.com/index', {
-			'Home': {
-				'list|5': [{
-					'type|+1': [1,2,3],
-					'imgPath': Random.image('200x200Logo', '#b7ddf2', '#333', 'png', ''),
-					'id': '@id'
-				}],
-				'list2|5': [{
-					'type|+1': [1,2,3],
-					'imgPath': Random.image('300x300Logo', '#9954bb', '#333', 'png', ''),
-					'id': '@id'
-				}],
-			},
-		});
-
-		Vue.prototype.$api = api;
-		
 		var demo = new Vue({
 		  el: '#root',
 		})
-
-		
-	</script>
-
-
-<script>
-/*
- * 说明
- * 不支持跨域图片
- * 不能在浏览器插件中使用
- * 部分浏览器上不支持SVG图片
- * 不支持Flash
- */
- function removeChlidernNode(){
+	 //返回一个promise
+	function wait(duration){
+	    return new Promise(function(resolve, reject) {
+	        setTimeout(resolve,duration);
+	    })
+	}
+	/*
+	 * 说明
+	 * 不支持跨域图片
+	 * 不能在浏览器插件中使用
+	 * 部分浏览器上不支持SVG图片
+	 * 不支持Flash
+	 */
+	function removeChlidernNode(){
  		var parentNode = document.getElementById('images')
  			if(parentNode.hasChildNodes()){
-				parentNode.removeChild();
+				parentNode.removeChild(document.getElementById('canvesId'));
 			}
- }
+ 	}
 
- function savePng(){
-	var canvasObj = document.getElementById("canvesId");
+ 	function savePng(){
+		var canvasObj = document.getElementById("canvesId");
 
-	/*自动保存为png*/
-	// 获取图片资源
-	 Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height)
+		/*自动保存为png*/
+		// 获取图片资源
+		 Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height)
 
-
-	/*下面的为原生的保存，不带格式名*/
-	// 这将会提示用户保存PNG图片
-	// Canvas2Image.saveAsPNG(oCanvas);
-}
+	}
 
 
 </script>
