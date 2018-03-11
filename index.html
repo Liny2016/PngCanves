@@ -46,6 +46,7 @@
     </div>
   </div>
 </header>
+		<p v-show="tips">生成图(PS:请鼠标右键图片另存为)</p>
 		<div id="images" ref="canvasImg">
 			
 		</div>
@@ -328,6 +329,7 @@
 						  str: '字幕标题',
 						  str2: '字幕副标题',
 						  zimuStyle:1,
+						  tips:false
 				  }
 			  },
 		  	  created:function() {
@@ -384,6 +386,7 @@
 							    removeChlidernNode()
 							    canvas.setAttribute('id','thecanvas');
 							    self.$refs.canvasImg.appendChild(canvas);
+							    self.tips = true
 							})
 						
 			  	}
@@ -392,9 +395,6 @@
 			  	srcFilter: srcFilter
 			  },
 			  watch: {
-			  	str:function (val, oldVal) {
-			     	removeChlidernNode();
-			    },
 			    logo: function(val, oldVal) {
 			    	 console.log(val, oldVal)
 			    }
