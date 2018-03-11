@@ -377,17 +377,13 @@
 					        useCORS: true // 【重要】开启跨域配置
 					    };
 					    var self = this
-						var convertFn = function(Canvas2Image) {
-							
-							return function(canvas) {
+
+						html2canvas(shareContent, opts).then(function(canvas) {
 								console.log('width',canvas.width,canvas.height)
 							     removeChlidernNode()
-							var img = Canvas2Image.convertToPNG(canvas, canvas.width, canvas.height)
-								img.setAttribute('id','canvesId')
-							    self.$refs.canvasImg.appendChild(img);
-							}
-						}
-						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
+							    canvas.setAttribute('id','thecanvas');
+							    self.$refs.canvasImg.appendChild(canvas);
+							})
 						
 					    wait(1000).then(function(){savePng()})
 			  	}
@@ -421,23 +417,36 @@
 	 * 部分浏览器上不支持SVG图片
 	 * 不支持Flash
 	 */
-	function removeChlidernNode(){
+function removeChlidernNode(){
  		var parentNode = document.getElementById('images')
  			if(parentNode.hasChildNodes()){
-				document.getElementById('canvesId').remove()
+				parentNode.removeChild(document.getElementById('thecanvas'));
 			}
- 	}
+ }
 
- 	function savePng(){
-		var canvasObj = document.getElementById("canvesId");
+ function savePng(){
+	var oCanvas = document.getElementById("thecanvas");
 
-		/*自动保存为png*/
-		// 获取图片资源
-		 Canvas2Image.saveAsPNG(canvasObj, canvasObj.width, canvasObj.height)
+	/*自动保存为png*/
+	// 获取图片资源
+	var img_data1 = Canvas2Image.saveAsPNG(oCanvas, true).getAttribute('src');
+	saveFile(img_data1, Date.now());
 
-	}
 
-
+	/*下面的为原生的保存，不带格式名*/
+	// 这将会提示用户保存PNG图片
+	// Canvas2Image.saveAsPNG(oCanvas);
+}
+// 保存文件函数
+var saveFile = function(data, filename){
+    var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+    save_link.href = data;
+    save_link.download = filename;
+   
+    var event = document.createEvent('MouseEvents');
+    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    save_link.dispatchEvent(event);
+};
 </script>
 </body>
 </html>
