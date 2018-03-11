@@ -381,9 +381,9 @@
 							
 							return function(canvas) {
 								console.log('width',canvas.width,canvas.height)
-								      
+							     removeChlidernNode()
 								canvas.setAttribute('id','canvesId')
-							    self.$refs.canvasImg.innerHTML = canvas;
+							    self.$refs.canvasImg.appendChild(canvas);
 							}
 						}
 						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
@@ -423,7 +423,7 @@
 	function removeChlidernNode(){
  		var parentNode = document.getElementById('images')
  			if(parentNode.hasChildNodes()){
-				parentNode.removeChild(document.getElementById('canvesId'));
+				parentNode.removeChild()
 			}
  	}
 
