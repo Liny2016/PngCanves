@@ -46,7 +46,9 @@
     </div>
   </div>
 </header>
-		<div id="images" ref="canvasImg" style="display: none;"></div>
+		<div id="images" ref="canvasImg">
+			
+		</div>
 		<!-- show view -->
 		<div class="panel panel-default">
 		   <div class="panel-heading">
@@ -207,7 +209,7 @@
 		        <div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
 		          <div class="btn-group pull-right">
 
-		            <button type="button" class="btn myBtn submit" @click="createCanvs">点击生成</button>
+		            <a href="#" class="btn myBtn submit" @click="createCanvs">点击生成</a>
 		           
 		          </div>  
 		        </div>
@@ -379,13 +381,11 @@
 					    var self = this
 
 						html2canvas(shareContent, opts).then(function(canvas) {
-								console.log('width',canvas.width,canvas.height)
-							     removeChlidernNode()
+							    removeChlidernNode()
 							    canvas.setAttribute('id','thecanvas');
 							    self.$refs.canvasImg.appendChild(canvas);
 							})
 						
-					    wait(1000).then(function(){savePng()})
 			  	}
 			  },
 			  filters:{
@@ -424,29 +424,6 @@ function removeChlidernNode(){
 			}
  }
 
- function savePng(){
-	var oCanvas = document.getElementById("thecanvas");
-
-	/*自动保存为png*/
-	// 获取图片资源
-	var img_data1 = Canvas2Image.saveAsPNG(oCanvas, true).getAttribute('src');
-	saveFile(img_data1, Date.now());
-
-
-	/*下面的为原生的保存，不带格式名*/
-	// 这将会提示用户保存PNG图片
-	// Canvas2Image.saveAsPNG(oCanvas);
-}
-// 保存文件函数
-var saveFile = function(data, filename){
-    var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
-    save_link.href = data;
-    save_link.download = filename;
-   
-    var event = document.createEvent('MouseEvents');
-    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    save_link.dispatchEvent(event);
-};
 </script>
 </body>
 </html>
