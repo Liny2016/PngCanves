@@ -383,7 +383,7 @@
 								console.log('width',canvas.width,canvas.height)
 								      
 								canvas.setAttribute('id','canvesId')
-							    self.$refs.canvasImg.appendChild(canvas);
+							    self.$refs.canvasImg.innerHTML = canvas;
 							}
 						}
 						html2canvas(shareContent, opts).then(convertFn(Canvas2Image))
